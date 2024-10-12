@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chronometre</title>
+  <style>
+    button.button {
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+
+    button.play {
+      background-color: #4CAF50;
+
+    }
+
+    button.pause {
+      background-color: rgb(98, 129, 231);
+
+    }
+
+    button.reset {
+      background-color: red;
+
+    }
+
+    div.main {
+      max-width: 500px;
+      margin: auto;
+      text-align: center;
+      background-color: yellow;
+      background-image: linear-gradient(to bottom right, rgb(233, 236, 41), rgb(228, 211, 58));
+      border-radius: 5px;
+      padding: 20px;
+
+    }
+
+    #timetext {
+      font-size: 60px;
+      color: blueviolet;
+
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- main -->
+  <div class="main">
+    <h2>Chronometre</h2>
+
+    <p id="timetext"></p>
+
+    <!-- button -->
+    <button id="playbtn" class="button play" onclick="playChrono()">play </button>
+    <button id="pausebtn" class="button pause" onclick="pauseChrono()">pause </button>
+    <button class="button reset" onclick="resetChrono()">reset </button>
+  </div>
+
+  <script>
+
+
+    var milisec = 0;
+    var sec = 0
+    var min = 0;
+    var hour = 0;
+
+    //interval en milisecond
+    var interval=10
+    var increment =10
+
+    //local storage
+    // sessionStorage.setItem("hour",hour);
+    // sessionStorage.setItem("min",min);
+    // sessionStorage.setItem("sec",sec);
+    // sessionStorage.setItem("milisec",milisec);
+
+    // hour=sessionStorage.getItem("hour");
+    // min=sessionStorage.getItem("min");
+    // sec=sessionStorage.getItem("sec");
+    // milisec=sessionStorage.getItem("milisec");
+
+    
+
+    document.getElementById("pausebtn").style = "display:none";
+    document.getElementById("timetext").innerHTML = hour + ":" + min + ":" + sec + ":" + milisec;
+    // textChrono();
+    function textChrono(){
+      document.getElementById("timetext").innerHTML = sessionStorage.getItem("hour")+ ":" + sessionStorage.getItem("min")+ ":" + sessionStorage.getItem("sec")+ ":" + sessionStorage.getItem("milisec");
+    }
+    //fonction increment chrono
+    function chrono() {
+
+      milisec = milisec + increment;
+
+      if (milisec == 1000) {
+        sec++;
+      
+        milisec = 0;
+        if (sec == 60) {
+          min++;
+        
+          sec = 0;
+          if (min == 60) {
+            hour++;
+            
+            min = 0;
+          }
+        }
+      
+
+      }
+      sessionStorage.setItem("hour",hour);
+      sessionStorage.setItem("min",min);
+      sessionStorage.setItem("sec",sec);
+      sessionStorage.setItem("milisec",milisec);
+
+      document.getElementById("timetext").innerHTML = hour + ":" + min + ":" + sec + ":" + milisec;
+      // document.getElementById("timetext").innerHTML = sessionStorage.getItem("hour") + ":" + sessionStorage.getItem("min") + ":" + sessionStorage.getItem("sec") + ":" + sessionStorage.getItem("milisec");
+
+      //test
+    // console.log("hour:"+sessionStorage.getItem("hour")+" min:",sessionStorage.getItem("min")+" sec:"+sessionStorage.getItem("sec")+" milisec:"+sessionStorage.getItem("milisec"));
+      // textChrono();
+    }
+  
+    //fonction play chrono 
+    function playChrono() {
+
+      play = setInterval(chrono, interval);
+
+      //hide play button
+      document.getElementById("playbtn").style = "display:none";
+
+      //show pause button
+      document.getElementById("pausebtn").style = "display:inline-block";
+      // console.log("hour:"+sessionStorage.getItem("hour")+" min:",sessionStorage.getItem("min")+" sec:"+sessionStorage.getItem("sec"));
+
+    }
+
+    //fonction pause chrono
+    function pauseChrono() {
+      document.getElementById("playbtn").style = "display:inline-block";
+      document.getElementById("pausebtn").style = "display:none";
+      clearInterval(play);
+
+    }
+
+    //fonction reset chrono
+    function resetChrono() {
+      milisec = 0;
+      sec = 0
+      min = 0;
+      hour = 0;
+
+      document.getElementById("timetext").innerHTML = hour + ":" + min + ":" + sec + ":" + milisec;
+      // textChrono();
+      document.getElementById("playbtn").style = "display:inline-block";
+      document.getElementById("pausebtn").style = "display:none";
+      clearInterval(play);
+    }
+  </script>
+</body>
+
+</html>
